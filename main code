@@ -1,0 +1,45 @@
+def triangle_generation(n):
+    triangle = []
+    line = [1]
+    for i in range(n):
+        new_line = []
+        line = [0] + line + [0]
+        for j in range(i + 1):
+            new_line.append(line[j] + line[j + 1])
+
+        line = new_line
+        triangle.append(line)
+    return triangle
+
+
+def triangle_output(triangle):
+    max_number_len = len(str(max(triangle[-1])))
+    last_line_len = (len(triangle[-1]) - 1) * max_number_len
+
+    for i in triangle[-1]:
+        last_line_len += len(str(i))
+
+    indent = last_line_len // 2 - max_number_len
+    indent_variation = max_number_len - max_number_len // 2
+
+    for i in range(len(triangle)):
+        print(indent * ' ', end='')
+        indent -= indent_variation
+        for j in range(len(triangle[i])):
+            if j < len(triangle[i]) - 1:
+                number = triangle[i][j]
+                next_number_len = len(str(triangle[i][j + 1]))
+                indent_between_numbers = (max_number_len + 1 - next_number_len) * ' '
+                print(number, end=indent_between_numbers)
+            else:
+                print(triangle[i][j])
+
+
+def main():
+    n = int(input('Введите количество строчек в треугольнике Паскаля:'))
+    triangle = triangle_generation(n)
+    triangle_output(triangle)
+
+
+if __name__ == '__main__':
+    main()
